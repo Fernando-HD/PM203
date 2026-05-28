@@ -1,0 +1,5 @@
+// Inicializar sistema
+
+mostrarTodos();
+
+mostrarPromociones();
