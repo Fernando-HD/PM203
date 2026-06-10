@@ -1,8 +1,9 @@
 /*Zona 1: importaciones de componentes y archivos*/
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image} from 'react-native';
-import {Saludo} from './components/Saludo';
-import {Saludo2} from './components/Saludo2';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { Saludo } from './components/Saludo';
+import { Saludo2 } from './components/Saludo2';
+import { Perfil } from './components/Perfil';
 
 /*Zona 2: zona de los componentes visuales (main)*/
 export default function App() {
@@ -10,14 +11,17 @@ export default function App() {
     <View style={styles.container}>
 
       <Text>---Componentes Nativos---</Text>
-      <Image source={require('./assets/wave.png')}/>
+      <Image source={require('./assets/wave.png')} />
       <Text>Hola mundo React Native</Text>
 
       <Text>---Componente Propio Simple---</Text>
       <Saludo></Saludo>
 
-      <Text>---Componentes Propio Compuesto---</Text>
+      <Text>---Componente Propio Compuesto---</Text>
       <Saludo2></Saludo2>
+
+      <Text>---Componente Perfil---</Text>
+      <Perfil></Perfil>
 
       <StatusBar style="auto" />
     </View>
@@ -33,5 +37,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
 
