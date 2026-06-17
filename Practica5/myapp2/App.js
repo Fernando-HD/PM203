@@ -9,8 +9,17 @@ import { Perfil } from './components/Perfil';
 export default function App() {
   return (
     <View style={styles.container}>
+   <Perfil
+     estiloExt={styles.tarjetaRoja}
+     nombre="FER HD"
+     carrera="Ing. Sistemas"
+     materia="Programacion movil"
+     cuatri="9"
+    
+    ></Perfil>
 
       <Perfil 
+      estiloExt={styles.tarjetaVerde}
       nombre="Fernando HD" 
       carrera="Ing.Sistemas"
       materia="Programacion movil" 
@@ -18,11 +27,13 @@ export default function App() {
       </Perfil>
 
       <Perfil 
-      nombre="FER HD" 
-      carrera="Ing. Sistemas"
+      estiloExt={styles.tarjetaRoja}
+      nombre="Fernando HD" 
+      carrera="Ing.Sistemas"
       materia="Programacion movil" 
-      cuatri="9" />
-      
+      cuatri="9">
+      </Perfil>
+
       <StatusBar style="auto" />
 
     </View>
@@ -32,10 +43,17 @@ export default function App() {
 /* Zona 3: Estilos y Posicionamiento  */
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  flex: 1,
+  backgroundColor: '#fff',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+},
+
+  tarjetaRoja:{backgroundColor:'#FF6868'},
+  tarjetaVerde:{backgroundColor:'#6BCB77'}
+  
+  
+  
 });
 
