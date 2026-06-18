@@ -1,15 +1,13 @@
 /* Zona 1: Importanciones de componentes y archivos */
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image} from 'react-native';
-import MenuScreen from './screens/MenuScreen';
-
+import { StyleSheet, Text, View } from 'react-native';
 
 /* Zona 2: Main - Hogar de los componentes */
-export default function App() {
+export default function ImageBackgroundScreen() {
   return (
     <View style={styles.container}>
 
-       <MenuScreen></MenuScreen>
+      <Text>Aquí va la práctica de Ines</Text>
 
       <StatusBar style="auto" />
 
@@ -20,14 +18,9 @@ export default function App() {
 /* Zona 3: Estilos y Posicionamiento  */
 const styles = StyleSheet.create({
   container: {
-  flex: 1,
-  backgroundColor: '#fff',
-  flexDirection: 'center',
-  justifyContent: 'center',
-  alignItems: 'column',
-},
-
-    
-  
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
-
