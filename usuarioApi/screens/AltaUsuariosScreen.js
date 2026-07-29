@@ -1,18 +1,57 @@
 import React, { useState } from 'react';
-import {View,SafeAreaView,Text,TextInput,Pressable,StyleSheet,} from 'react-native';
+import {View, SafeAreaView, Text, TextInput, Pressable, StyleSheet, Alert, Platform} from 'react-native';
 
 export default function App() {
   const [nombre, setNombre] = useState('');
   const [edad, setEdad] = useState('');
+  const [cargando, setCargando] = useState(false);
+
+  const mostrarMensaje = (titulo, mensaje) => {
+    if(Platform.OS === 'web') {
+      window.alert(`${titulo}\n${mensaje}`);
+    } else {
+      Alert.alert(titulo, mensaje);
+    }
+  };
+
+  const guardarUsuarios = async() => {
+    if(nombre.trim() === '' || edad.trim() === '') {
+      mostrarMensaje("Vacíos", "Todos los campos son obligatorios");
+      return;
+    }
+
+    try {
+      setCargando(true);
+      const respuesta = await fetch('http://192.168.1.48:5001/v1/usuarios/', {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          nombre: nombre.trim(),
+          edad: parseInt(edad)
+        })
+      });
+      
+      if (!respuesta.ok) {
+        throw new Error(`Error ${respuesta.status}`);
+      }
+      
+      const datos = await respuesta.json();
+      console.log("Respuesta:", datos);
+      mostrarMensaje("Éxito", "Usuario guardado correctamente");
+      setNombre('');
+      setEdad('');
+    } catch(error) {
+      console.error("Error:", error);
+      mostrarMensaje("Error", "No se pudo guardar el usuario");
+    } finally {
+      setCargando(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-
       <View style={styles.card}>
-
-        <Text style={styles.titulo}>
-          Registro de Usuarios
-        </Text>
+        <Text style={styles.titulo}>Registro de Usuarios</Text>
 
         <TextInput
           style={styles.input}
@@ -29,20 +68,21 @@ export default function App() {
           onChangeText={setEdad}
         />
 
-        <Pressable style={styles.boton}>
+        <Pressable 
+          style={[styles.boton, cargando && styles.botonDeshabilitado]}
+          onPress={guardarUsuarios}
+          disabled={cargando}
+        >
           <Text style={styles.textoBoton}>
-            Agregar Usuario
+            {cargando ? 'Guardando...' : 'Agregar Usuario'}
           </Text>
         </Pressable>
-
       </View>
-
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     backgroundColor: '#F5F7FA',
@@ -50,13 +90,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-
   card: {
     width: '100%',
     backgroundColor: '#FFFFFF',
     padding: 25,
     borderRadius: 15,
-    elevation: 5, 
+    elevation: 5,
     shadowColor: '#000',
     shadowOpacity: 0.15,
     shadowRadius: 8,
@@ -65,7 +104,6 @@ const styles = StyleSheet.create({
       height: 3,
     },
   },
-
   titulo: {
     fontSize: 26,
     fontWeight: 'bold',
@@ -73,7 +111,6 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     color: '#1F2937',
   },
-
   input: {
     height: 50,
     borderWidth: 1,
@@ -84,7 +121,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9FAFB',
     fontSize: 16,
   },
-
   boton: {
     backgroundColor: '#29bb0c',
     paddingVertical: 15,
@@ -92,11 +128,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
-
+  botonDeshabilitado: {
+    backgroundColor: '#9CA3AF',
+  },
   textoBoton: {
     color: '#FFFFFF',
     fontSize: 17,
     fontWeight: 'bold',
   },
-
 });
